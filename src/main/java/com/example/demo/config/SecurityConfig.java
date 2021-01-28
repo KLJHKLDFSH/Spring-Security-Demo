@@ -28,10 +28,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-//                .authenticationProvider(hxbAuthProvider);
-                .userDetailsService(authService)
-
+        auth.authenticationProvider(hxbAuthProvider)
+         //认证通过后是否抹掉密码，默认为true
+//           .eraseCredentials(false)
+//           .userDetailsService(authService)
         ;
     }
 

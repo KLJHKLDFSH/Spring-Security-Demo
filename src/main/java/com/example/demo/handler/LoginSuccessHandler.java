@@ -1,6 +1,9 @@
 package com.example.demo.handler;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +20,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        String msg = "success";
-        response.getWriter().write(msg);
+        String msg = "success \n"+ authentication.getName()+authentication.getPrincipal()+authentication.getAuthorities();
+        Gson gson = new Gson();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("resule",msg);
+        response.getWriter().write(gson.toJson(jsonObject));
     }
 }
