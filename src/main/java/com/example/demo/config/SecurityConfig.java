@@ -7,10 +7,14 @@ import com.example.demo.handler.LoginSuccessHandler;
 import com.example.demo.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -25,9 +29,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private LoginFailureHandler loginFailureHandler;
     @Autowired
     private EntryPointHander entryPointHander;
+    @Autowired
+    private AuthenticationDetailsSource<HttpServletRequest, Map> myAuthenticationDetailsSource;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
         auth.authenticationProvider(hxbAuthProvider)
          //认证通过后是否抹掉密码，默认为true
 //           .eraseCredentials(false)
@@ -40,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .csrf().disable()
             .formLogin()
+                .authenticationDetailsSource(myAuthenticationDetailsSource)
 //                .loginPage("/loginPage")
                 .loginProcessingUrl("/login")
                 .successHandler(loginSuccessHandler)

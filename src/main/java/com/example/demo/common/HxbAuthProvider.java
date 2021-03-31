@@ -25,7 +25,9 @@ public class HxbAuthProvider implements AuthenticationProvider {
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String userName = (String) authentication.getPrincipal();
+
 		String password = (String)authentication.getCredentials();
+		
 		Gson gson = new Gson();
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("username",userName);
